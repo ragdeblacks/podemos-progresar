@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ComponentModule } from '../component/component.module';
 import { ComponentsModule } from './components/components.module';
 import { TransactionService } from '../core/service/transaction.service';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TransactionService } from '../core/service/transaction.service';
     PortalRoutingModule,
     MatIconModule,
     ComponentModule,
-    ComponentsModule
+    ComponentsModule,
+    FormsModule
   ],
   providers:[
     TransactionService

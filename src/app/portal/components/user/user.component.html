@@ -11,7 +11,7 @@
     </div>
     <div class="row">
         <div class="col-12 text-center pt-2 pb-2">
-            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" [(ngModel)]="nameCustomer" placeholder="Inserta tu Nombre" (keyup)="clear()">
+            <input type="text" class="form-control mb-2 mr-sm-2 nameCustomer" id="inlineFormInputName2" [(ngModel)]="nameCustomer" placeholder="Inserta tu Nombre" (keyup)="clear()">
         </div>
         <div class="col-12 text-center pt-2 pb-2" *ngIf="error" >
             <div class="alert alert-danger" role="alert">

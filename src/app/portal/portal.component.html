@@ -7,31 +7,60 @@
                     <div class="card" >
                         <div class="card-body">
                             <div class="row data-user pt-1 pb-1" *ngIf="activeUser">
-                                <div class="col-8 col-sm-8 col-lg-8 text-left">
-                                    <h3 class="card-title mb-0" style="line-height: 1.2; color: white;" >Hola <strong></strong></h3>
+                                <div class="col-12 col-sm-12 col-lg-12 text-left">
+                                    <h2 class="card-title mb-0" style="line-height: 1.2; color: white;" >Hola <strong class="nameCustomer">{{localInfo.nameCustomer}}</strong></h2>
                                 </div>
-                                <div class="col-8 col-sm-8 col-lg-8 text-left">
-                                    <h3 class="card-title mb-0" style="line-height: 1.2; color: white;" >Cliente <strong></strong></h3>
+                                <div class="col-12 col-sm-12 col-lg-12 text-left">
+                                    <h2 class="card-title mb-0" style="line-height: 1.2; color: white;" >Clave de Cliente <strong>{{localInfo.idCustomer}}</strong></h2>
+                                </div>
+                                <div class="col-12 col-sm-12 col-lg-12 text-left" *ngIf="localInfo.nameGroup!=''">
+                                    <h2 class="card-title mb-0" style="line-height: 1.2; color: white;" >Grupo de Afiliación <strong>{{localInfo.nameGroup}}</strong></h2>
                                 </div>
                             </div>
                             
-                            <app-welcome *ngIf="step == 1" (oncreationProcess)="creationProcess($event)" step="step">
+                            <app-welcome *ngIf="step === 1" (oncreationProcess)="creationProcess($event)" [step]="step">
                             </app-welcome>
-                            <app-user *ngIf="step == 2" (oncreationProcess)="creationProcess($event)" step="step">
+                            <app-user *ngIf="step === 2" (oncreationProcess)="creationProcess($event)" [step]="step">
                             </app-user>
-                            <app-group *ngIf="step == 3" (oncreationProcess)="creationProcess($event)" step="step">
+                            <app-group *ngIf="step === 3" 
+                                [error]="errorGroup"
+                                (oncreationProcess)="creationProcess($event)" 
+                                (onsearchGroup)="searchGroup($event)" [step]="step">
                             </app-group>
                             <div class="grid-congrats" *ngIf="step == 4" >
                                 <div class="row">
                                     <div class="col-12 text-center">
-                                        <label class="card-title h2">Felicidades te has afiliado al grupo  <strong >grupo</strong></label>
+                                        <label class="card-title h2">Felicidades ahora eres parte del grupo <strong >{{localInfo.nameGroup}}</strong></label>
+                                        <label class="card-title h2" *ngIf="typeAffiliate==1">Para poder ver los detalles de tu credito grupal pulsa continuar</label>
+                                        <label class="card-title h2" *ngIf="typeAffiliate==2">Ahora estas listo para un credito, es momento de definir el monto del prestamo para el grupo</label>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row pt-2 pb-2 pl-3" *ngIf="typeAffiliate==2">
+                                    <div class="col-1 col-lg-1 col-sm-1 text-center pt-2">
+                                        <strong>$</strong>
+                                    </div>
+                                    <div class="col-11 col-lg-11 col-sm-11 text-center pl-0 pr-5">
+                                        <input type="number" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Monto" [(ngModel)]="amount"  step="0.01" >
+                                    </div>
+                                    <div class="col-12 text-center pt-2 pb-2" *ngIf="errorCredit" >
+                                        <div class="alert alert-danger" role="alert">
+                                            ¡No a definido un monto de prestamo!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-2" *ngIf="typeAffiliate==1">
                                     <div class="col-12 text-center">
                                         <button class="btn btn-success" (click)="creationProcess({step:5})" >
-                                            <mat-icon>play_arrow</mat-icon>&nbsp;
+                                            <mat-icon>done</mat-icon>&nbsp;
                                             <span>Continuar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row pt-2" *ngIf="typeAffiliate==2">
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-success" (click)="creationProcess({step:5})" >
+                                            <mat-icon>done</mat-icon>&nbsp;
+                                            <span>Generar</span>
                                         </button>
                                     </div>
                                 </div>
