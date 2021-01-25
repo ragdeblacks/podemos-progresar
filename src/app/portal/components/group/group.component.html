@@ -1,0 +1,74 @@
+<div class="grid-group">
+    <div class="row">
+        <div class="col-12 text-center">
+            <label class="card-title h2">Paso 2</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <p class="h5">Para ser uno de los beneficiarios de nuestros creditos tienes que ser parte de un grupo, si conoces el identificador de algun grupo puedes afiliarte.</p>
+            <p class="h5">Ademas tienes la oportunidad de crear tu propio grupo y poder compartir con mas personas para que se afilien a tu grupo</p>
+        </div>
+    </div>
+    <div class="row pt-4 pb-4 pl-3 pr-3">
+        <div class="col-6 col-lg-6 col-sm-6 text-center">
+            <div class="row">
+                <div class="col-12 col-lg-12 col-sm-12 text-center">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="1" (change)="changeOptionGroup($event)"  >
+                        <label class="custom-control-label" for="customRadio1">Afiliate al grupo</label>
+                      </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="col-6 col-lg-6 col-sm-6 text-center">
+            <div class="row">
+                <div class="col-12 col-lg-12 col-sm-12 text-center">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio2" name="customRadio" value="2" class="custom-control-input"  (change)="changeOptionGroup($event)" >
+                        <label class="custom-control-label" for="customRadio2">Creatu tu grupo</label>
+                      </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="grid-new-group" *ngIf="typeAffiliate == 1">
+        <div class="row pt-2 pb-2">
+            <div class="col-12 col-lg-12 col-sm-12 text-center">
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Nombre del Grupo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-12 col-sm-12 text-center">
+                <button class="btn btn-success" (click)="creationProcess(4)">
+                    <mat-icon>add</mat-icon>&nbsp;
+                    <span>Crear</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="grid-affiliate-group" *ngIf="typeAffiliate == 2">
+        <div class="row pt-2 pb-2">
+            <div class="col-12 col-lg-12 col-sm-12 text-center">
+                <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Id Grupo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-12 col-sm-12 text-center">
+                <button class="btn btn-success" (click)="creationProcess(4)">
+                    <mat-icon>supervised_user_circle</mat-icon>&nbsp;
+                    <span>Afiliate</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            
+            
+        </div>
+    </div>
+</div>

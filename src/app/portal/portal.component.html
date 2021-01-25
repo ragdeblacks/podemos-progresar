@@ -1,0 +1,52 @@
+<div class="d-flex h-100 mx-auto flex-column bg-light">
+    <app-header></app-header>
+    <main role="main" class="mh-100 ">
+        <div class="container-fluid ">
+            <div class="row ">
+                <div class="col-12 col-sm-12 col-lg-12 p-3 ">
+                    <div class="card" >
+                        <div class="card-body">
+                            <div class="row data-user pt-1 pb-1" *ngIf="activeUser">
+                                <div class="col-8 col-sm-8 col-lg-8 text-left">
+                                    <h3 class="card-title mb-0" style="line-height: 1.2; color: white;" >Hola <strong></strong></h3>
+                                </div>
+                                <div class="col-8 col-sm-8 col-lg-8 text-left">
+                                    <h3 class="card-title mb-0" style="line-height: 1.2; color: white;" >Cliente <strong></strong></h3>
+                                </div>
+                            </div>
+                            
+                            <app-welcome *ngIf="step == 1" (oncreationProcess)="creationProcess($event)" step="step">
+                            </app-welcome>
+                            <app-user *ngIf="step == 2" (oncreationProcess)="creationProcess($event)" step="step">
+                            </app-user>
+                            <app-group *ngIf="step == 3" (oncreationProcess)="creationProcess($event)" step="step">
+                            </app-group>
+                            <div class="grid-congrats" *ngIf="step == 4" >
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <label class="card-title h2">Felicidades te has afiliado al grupo  <strong >grupo</strong></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-success" (click)="creationProcess({step:5})" >
+                                            <mat-icon>play_arrow</mat-icon>&nbsp;
+                                            <span>Continuar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <app-account *ngIf="activeAccount">
+                            </app-account>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+</div>
+    
+        

@@ -1,0 +1,31 @@
+<div class="grid-user">
+    <div class="row">
+        <div class="col-12 text-center">
+            <label class="card-title h2">Paso 1</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <p class="h5">El primer paso sera crear tu cuenta, por lo cual necesitamos tu nombre para asignarte un numero de cliente dentro de nuestra plataforma</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center pt-2 pb-2">
+            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" [(ngModel)]="nameCustomer" placeholder="Inserta tu Nombre" (keyup)="clear()">
+        </div>
+        <div class="col-12 text-center pt-2 pb-2" *ngIf="error" >
+            <div class="alert alert-danger" role="alert">
+                Campo Requerido <strong>X</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <button class="btn btn-success" (click)="creationProcess(3)">
+                <mat-icon>account_circle</mat-icon>&nbsp;
+                <span>Nuevo Cliente</span>
+            </button>
+        </div>
+    </div>
+</div>
