@@ -25,7 +25,7 @@ export class TransactionService extends ConnectionService {
     return this.get(UrlEnum.group);
   }
   getGroupbyId(id: any): Observable<any> {
-    return this.get(UrlEnum.group);
+    return this.get(UrlEnum.group+'/'+id);
   }
   getGroupMembers(idGroup: any): Observable<any> {
     return this.get(UrlEnum.group+'/'+idGroup+'/'+UrlEnum.member);
