@@ -1,4 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
   urlBase: 'http://jnovoa.pythonanywhere.com/podemos/'
 };
