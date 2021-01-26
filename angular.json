@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "podemos-progresars": {
+    "podemos-progresar": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -76,18 +76,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "podemos-progresars:build"
+            "browserTarget": "podemos-progresar:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "podemos-progresars:build:production"
+              "browserTarget": "podemos-progresar:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "podemos-progresars:build"
+            "browserTarget": "podemos-progresar:build"
           }
         },
         "test": {
@@ -124,16 +124,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "podemos-progresars:serve"
+            "devServerTarget": "podemos-progresar:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "podemos-progresars:serve:production"
+              "devServerTarget": "podemos-progresar:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "podemos-progresars"
+  "defaultProject": "podemos-progresar"
 }

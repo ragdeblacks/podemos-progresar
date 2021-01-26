@@ -8,7 +8,7 @@ import { TransactionService } from '../core/service/transaction.service';
   styleUrls: ['./portal.component.scss']
 })
 export class PortalComponent implements OnInit {
-  viewMenu = 'client'; //default
+  viewMenu = 'default';
   activeUser = false;
   activeGroup = false;
   activeAccount = false;
@@ -53,8 +53,6 @@ export class PortalComponent implements OnInit {
       this.getGroupAccount();
     }
 
-    /**borrar al final  */
-    this.getCustomer();
   }
   creationProcess(data: any){
     switch(data.step){
