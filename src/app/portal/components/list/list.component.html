@@ -1,0 +1,102 @@
+<div class="grid-customer-list">
+    <div class="row d-flex justify-content-between title-account">
+        <div class="col-5 text-left align-self-center">
+            <label class="card-title mb-0 h7">
+                <strong *ngIf="viewMenu =='client'">Listado de Clientes</strong> 
+                <strong *ngIf="viewMenu =='group'">Listado de Grupos</strong> 
+            </label>
+        </div>
+        <div class="col-6 text-right ">
+            <button class="btn btn-success btn-sm btn-action mr-1" 
+            data-backdrop="static" 
+                data-keyboard="false" 
+                data-toggle="modal" 
+            data-target="#newElementModal">
+                <mat-icon>add</mat-icon>
+                Nuevo <span *ngIf="viewMenu =='client'">Cliente</span><span *ngIf="viewMenu =='group'">Grupo</span>
+            </button>
+        </div>
+    </div>
+    <div class="row pt-2 pb-2 subtitle">
+        <div class="col-2 text-center align-self-center">
+            <label class="mb-0">ID</label>
+        </div>
+        <div class="col-6 text-center align-self-center">
+            <label class="mb-0">Nombre</label>
+        </div>
+        <div class="col-3 text-center align-self-center">
+            <label class="mb-0">Accion</label>
+        </div>
+    </div>
+    <div class="list-grid client" *ngIf="viewMenu =='client'">
+        <div class="row pt-2 pb-2 body" *ngFor="let item of listCustomers" >
+            <div class="col-2 text-center align-self-center">
+                <label class="mb-0">{{item.id}}</label>
+            </div>
+            <div class="col-6 text-center align-self-center">
+                <label class="mb-0" *ngIf="editButtons !== 'customer'+item.id">{{item.nombre}}</label>
+                <input type="text" *ngIf="editButtons == 'customer'+item.id" class="form-control mb-2 mr-sm-2" [(ngModel)]="nameEditCustomer" placeholder="Ingrese Nombre"  >
+            </div>
+            <div class="col-3 text-center">
+                <button *ngIf="editButtons !== 'customer'+item.id" class="btn btn-info btn-sm btn-action" (click)="editCustomer(item.id,item.nombre)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <div *ngIf="editButtons == 'customer'+item.id">
+                    <button class="btn btn-success btn-sm btn-action mr-1" (click)="saveCustomer(item.id)" >
+                        <mat-icon>done</mat-icon>
+                    </button>
+                    <button class="btn btn-danger btn-sm btn-action" (click)="closedEdit()" >
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="list-grid group" *ngIf="viewMenu =='group'">
+        <div class="row pt-2 pb-2 body" *ngFor="let item of listGroup" >
+            <div class="col-3 text-center align-self-center">
+                <label class="mb-0">{{item.id}}</label>
+            </div>
+            <div class="col-6 text-center align-self-center">
+                <label class="mb-0" *ngIf="editButtons !== 'group'+item.id">{{item.nombre}}</label>
+                <input type="text" *ngIf="editButtons == 'group'+item.id" class="form-control mb-2 mr-sm-2" [(ngModel)]="nameEditGroup" placeholder="Ingrese Nombre de grupo"  >
+            </div>
+            <div class="col-3 text-center align-self-center">
+                <button class="btn btn-info btn-sm btn-action" *ngIf="editButtons !== 'group'+item.id" (click)="editGroup(item.id,item.nombre)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <div *ngIf="editButtons == 'group'+item.id">
+                    <button class="btn btn-success btn-sm btn-action mr-1" (click)="saveGroup(item.id)" >
+                        <mat-icon>done</mat-icon>
+                    </button>
+                    <button class="btn btn-danger btn-sm btn-action" (click)="closedEdit()">
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="newElementModal" tabindex="-1" role="dialog" aria-labelledby="newElementModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="text-align: -webkit-center; top: 200px;">
+      <div class="modal-content" style="width: 80%;">
+        <div class="modal-header pb-0">
+          <h4 class="modal-title" id="newElementModalLabel">Crear un <span *ngIf="viewMenu =='client'">Cliente</span><span *ngIf="viewMenu =='group'">Grupo</span></h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-10 align-self-center pt-1">
+                    <input type="text" class="form-control mb-2 mr-sm-2 nameCustomer"  id="inlineFormInputName2" placeholder="Nombre" [(ngModel)]="createDataElem" step="0.01">
+                </div>
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="createData()">Crear Cuenta</button>
+        </div>
+      </div>
+    </div>
+  </div>

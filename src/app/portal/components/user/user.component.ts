@@ -7,9 +7,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class UserComponent implements OnInit {
   @Output() oncreationProcess = new EventEmitter<any>();
+  @Output() onsearchCustomer = new EventEmitter<any>();
   @Input() step: any;
+  @Input() typeCustomer: any;
   nameCustomer = '';
   error = false;
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -17,15 +20,21 @@ export class UserComponent implements OnInit {
   clear(){
     this.error = false;
   }
-  creationProcess(view: number){
+  searchCustomer(){
     if(this.nameCustomer!==''){
       const data = {
-        step: view,
-        name: this.nameCustomer
+        id: this.nameCustomer
       };
-      this.oncreationProcess.emit(data);
+      this.onsearchCustomer.emit(data);
     }else{
       this.error = true;
     }
+  }
+  creationProcess(view: number){
+    const data = {
+      step: view,
+      name: this.nameCustomer
+    };
+    this.oncreationProcess.emit(data);
   }
 }

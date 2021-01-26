@@ -21,7 +21,8 @@ export class GroupComponent implements OnInit {
     const data = {
       step: view,
       optionGroup: this.typeAffiliate,
-      name: this.nameGroup
+      name: (this.nameGroup === '')? this.error.nombre : this.nameGroup,
+      id: this.searchName
     };
     this.oncreationProcess.emit(data);
   }

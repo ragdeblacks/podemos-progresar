@@ -6,13 +6,21 @@
     </div>
     <div class="row">
         <div class="col-12 text-center">
-            <p class="h5">El primer paso sera crear tu cuenta, por lo cual necesitamos tu nombre para asignarte un numero de cliente dentro de nuestra plataforma</p>
+            <p class="h5">El primer paso sera crear/vicular tu cuenta, por lo cual necesitamos que coloques un ID de cliente o tu nombre, buscaremos si existe un cliente para vicular o crearemos un cliente para ti</p>
         </div>
     </div>
     <div class="row">
-        <div class="col-12 text-center pt-2 pb-2">
-            <input type="text" class="form-control mb-2 mr-sm-2 nameCustomer" id="inlineFormInputName2" [(ngModel)]="nameCustomer" placeholder="Inserta tu Nombre" (keyup)="clear()">
+        <div class="col-8 text-center pt-2 pb-2">
+            <input type="text" class="form-control mb-2 mr-sm-2 nameCustomer" id="inlineFormInputName2" [(ngModel)]="nameCustomer" placeholder="Nombre/ID de cliente" (keyup)="clear()">
         </div>
+        <div class="col-4 text-center pt-2 pb-2">
+            <button class="btn btn-info btn-sm" (click)="searchCustomer()">
+                <mat-icon>search</mat-icon>&nbsp;
+                <span>Buscar</span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12 text-center pt-2 pb-2" *ngIf="error" >
             <div class="alert alert-danger" role="alert">
                 Campo Requerido <strong>X</strong>
@@ -22,10 +30,21 @@
 
     <div class="row">
         <div class="col-12 text-center">
-            <button class="btn btn-success" (click)="creationProcess(3)">
-                <mat-icon>account_circle</mat-icon>&nbsp;
-                <span>Nuevo Cliente</span>
-            </button>
+            <div class="alert alert-info" role="alert" *ngIf="typeCustomer=='vincular'">
+                Existe un cliente con el ID proporcionado, ¿Desea Vincular?<br>
+                <button class="btn btn-success" (click)="creationProcess(3)">
+                    <mat-icon>thumb_up</mat-icon>&nbsp;
+                    <span>Vincular</span>
+                </button>
+            </div>
+            <div class="alert alert-warning" role="alert" *ngIf="typeCustomer=='crear'">
+                No existe ningun cliente con los datos proporcionados, ¿Desea crear un Cliente?<br>
+                <button class="btn btn-success" (click)="creationProcess(3)">
+                    <mat-icon>add</mat-icon>&nbsp;
+                    <span>Crear Cliente</span>
+                </button>
+            </div>
+            
         </div>
     </div>
 </div>

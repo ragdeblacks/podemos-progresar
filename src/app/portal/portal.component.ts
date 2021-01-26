@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { DataLocal } from '../core/model/dataLocal';
 import { TransactionService } from '../core/service/transaction.service';
 @Component({
@@ -7,17 +8,25 @@ import { TransactionService } from '../core/service/transaction.service';
   styleUrls: ['./portal.component.scss']
 })
 export class PortalComponent implements OnInit {
+  viewMenu = 'client'; //default
   activeUser = false;
   activeGroup = false;
   activeAccount = false;
   step = 1;
   localInfo: DataLocal = new DataLocal();
-  creditInfo!: any[];
+  listCredits?: any = [];
+  listPaymentCalendar?: any = [];
+  listCustomers?: any [];
+  listGroup?: any [];
   typeAffiliate: any;
   amount = 0;
   countCred = 0;
   errorGroup: any = '';
   errorCredit = false;
+  typeCustomer='';
+  private groupAccountObs: Subject<any> = new Subject<any>();
+  private searchGroupAccountObs: Subject<any> = new Subject<any>();
+  private searchPaymentObs: Subject<any> = new Subject<any>();
   constructor(
     public service: TransactionService
   ) {   }
@@ -27,11 +36,10 @@ export class PortalComponent implements OnInit {
       this.step = Number(localStorage.getItem('step'));
     }
     if(localStorage.getItem('idCustomer')){
-      
       this.localInfo.nameCustomer = localStorage.getItem('nameCustomer')!;
       this.localInfo.idCustomer = localStorage.getItem('idCustomer')!;
       this.activeUser = true;
-      //this.step = 0;
+      //
     }
     if(localStorage.getItem('idGroup')){
       this.localInfo.idGroup = localStorage.getItem('idGroup')!;
@@ -39,6 +47,14 @@ export class PortalComponent implements OnInit {
       this.typeAffiliate = localStorage.getItem('typeAffiliate')!;
       this.countCred = Number(localStorage.getItem('countCred')!);
     }
+    if(localStorage.getItem('listCredits')){
+      this.step = 0;
+      this.activeAccount = true;
+      this.getGroupAccount();
+    }
+
+    /**borrar al final  */
+    this.getCustomer();
   }
   creationProcess(data: any){
     switch(data.step){
@@ -46,18 +62,23 @@ export class PortalComponent implements OnInit {
         this.changeStep(data.step);
       break;
       case 3:
-        const payload = {
-          id: this.randomId(),
-          nombre: this.localInfo.nameCustomer
-        };
-        this.service.setCustomer(payload).subscribe((res)=>{
-          this.localInfo.nameCustomer = res.nombre;
-          this.localInfo.idCustomer = res.id;
-          localStorage.setItem('idCustomer',res.id);
-          localStorage.setItem('nameCustomer',res.nombre);
+        if(this.typeCustomer == 'crear'){
+          const payload = {
+            id: this.randomId(),
+            nombre: data.name
+          };
+          this.service.setCustomer(payload).subscribe((res)=>{
+            this.localInfo.nameCustomer = res.nombre;
+            this.localInfo.idCustomer = res.id;
+            localStorage.setItem('idCustomer',res.id);
+            localStorage.setItem('nameCustomer',res.nombre);
+            this.activeUser = true;
+            this.changeStep(data.step);
+          },error => console.log("Error: ", error));
+        }else{
           this.activeUser = true;
           this.changeStep(data.step);
-        },error => console.log("Error: ", error));
+        }
       break;
       case 4:
         this.typeAffiliate = data.optionGroup;
@@ -66,11 +87,11 @@ export class PortalComponent implements OnInit {
           const payload = [{
             id: this.localInfo.idCustomer
           }];
-          this.service.setGroupMember(this.errorGroup.id,payload).subscribe(res=>{
-              this.localInfo.nameGroup = res.grupo.nombre;
-              this.localInfo.idGroup = res.grupo.id;
-              localStorage.setItem('idGroup',res.grupo.id);
-              localStorage.setItem('nameGroup',res.grupo.nombre);
+          this.service.setGroupMember(data.id,payload).subscribe(res=>{
+              this.localInfo.nameGroup = data.name;
+              this.localInfo.idGroup = data.id;
+              localStorage.setItem('idGroup',data.id);
+              localStorage.setItem('nameGroup',data.name);
               this.activeGroup = true;
               this.changeStep(data.step);
           },error =>{
@@ -94,31 +115,23 @@ export class PortalComponent implements OnInit {
         }
       break;
       case 5:
-        if(this.amount===0){
-          this.errorCredit = true;
-        }else{
-          this.errorCredit = false;
-          if(this.typeAffiliate == '1'){
-
+        if(this.typeAffiliate == '2'){
+          if(this.amount===0){
+            this.errorCredit = true;
           }else{
-            this.countCred++;
-            const payload = {
-              id: 'CRED-'+this.countCred,
-              monto: this.amount
-            };
-            this.service.setGroupAccount(this.localInfo.idGroup,payload).subscribe(res=>{
-              const result: any = res;
-              this.creditInfo = result;
-              localStorage.setItem('listCredits',JSON.stringify(this.creditInfo));
-              this.changeStep(0);
-              this.activeAccount = true;
-              localStorage.setItem('countCred',this.countCred.toString());
-            },error =>{
-              console.log(error);
-            });
+            this.errorCredit = false;
+            this.createAccount({monto: this.amount});
           }
-
         }
+        this.searchGroupAccount();
+        this.statusSearchGroupAccount$.subscribe(res =>{
+          localStorage.setItem('listCredits',JSON.stringify(res));
+          this.listCredits = res;
+          this.changeStep(0);
+          this.activeAccount = true;
+        },error=>{
+          console.log(error);
+        });
         
       break;
     }
@@ -128,10 +141,7 @@ export class PortalComponent implements OnInit {
     localStorage.setItem('step',this.step.toString());
   }
   randomId(){
-    // Math.random should be unique because of its seeding algorithm.
-    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-    // after the decimal.
-    return Math.random().toString(36).substr(2, 9);
+    return Math.random().toString(36).substr(2, 9).toUpperCase();
   };
 
   searchGroup(data: any){
@@ -142,6 +152,123 @@ export class PortalComponent implements OnInit {
       this.errorGroup = 'error';
         return error;
     } );
+  }
+
+  searchGroupAccount(){
+    this.service.getGroupAccounts(this.localInfo.idGroup).subscribe(res=>{
+      this.searchGroupAccountObs.next(res);
+    },error =>{
+      this.searchGroupAccountObs.error(error);
+    });
+  }
+  getGroupAccount(){
+    this.searchGroupAccount();
+    this.statusSearchGroupAccount$.subscribe(res =>{
+      localStorage.setItem('listCredits',JSON.stringify(res));
+      this.listCredits = res;
+    },error=>{
+      console.log(error);
+    });
+  }
+
+  setGroupAccount(payload: any ){
+    this.service.setGroupAccount(this.localInfo.idGroup,payload).subscribe(res=>{
+      this.groupAccountObs.next(res);
+    },error =>{
+      this.groupAccountObs.error(error);
+    });
+  }
+  searchPaymentList(data: any){
+    this.listPaymentCalendar = [];
+    this.service.getAccountPaymentCalendar(data.id).subscribe(res=>{
+      this.listPaymentCalendar = res;
+      this.searchPaymentObs.next('success');
+    },error=>{
+      this.searchPaymentObs.error('error');
+      console.log(error);
+    });
+  }
+  payment(data: any){
+    this.service.setAccountPayment(data.cuenta,{monto:data.monto}).subscribe(res=>{
+      this.searchPaymentList({id:res.cuenta});
+      this.getGroupAccount();
+    },error=>{
+      console.log(error);
+    });
+  }
+  createAccount(data: any){
+    this.countCred++;
+    const payload = {
+      id: 'CRED-'+this.localInfo.nameGroup+'-'+this.countCred,
+      monto: data.monto
+    };
+    this.setGroupAccount(payload);
+    this.statusSetAccount$.subscribe(res=>{
+      localStorage.setItem('countCred',this.countCred.toString());
+      this.getGroupAccount();
+    },error=>{
+      console.log(error);
+    });
+  }
+  searchCustomer(data: any){
+    this.service.getCustomerbyId(data.id).subscribe(res=>{
+      this.localInfo.nameCustomer = res.nombre;
+      this.localInfo.idCustomer = res.id;
+      localStorage.setItem('idCustomer',res.id);
+      localStorage.setItem('nameCustomer',res.nombre);
+      this.typeCustomer = 'vincular';
+    },error=>{
+      this.typeCustomer = 'crear';
+    });
+  }
+  changeModule(data: any){
+    this.viewMenu = data.view;
+    if(this.viewMenu == 'group'){
+      this.getGroups();
+    }else if(this.viewMenu == 'client'){
+      this.getCustomer();
+    }
+  }
+  setCustomer(data: any ){
+    if(data.id==''){
+      data.id = this.randomId();
+    }
+    this.service.setCustomer(data).subscribe(res=>{
+      this.getCustomer();
+    },error=>{
+      console.log(error)
+    })
+  }
+  setGroups(data: any){
+    if(data.id==''){
+      data.id = this.randomId();
+    }
+    this.service.setGroup(data).subscribe(res=>{
+      this.getGroups();
+    },error=>{
+      console.log(error)
+    })
+  }
+  getCustomer(){
+    this.listCustomers = [];
+    this.service.getCustomers().subscribe(res=>{
+      this.listCustomers = res;
+    },error=>{});
+  }
+  getGroups(){
+    this.listGroup = [];
+    this.service.getGroups().subscribe(res=>{
+      this.listGroup = res;
+    },error=>{});
+  }
+  get statusSetAccount$() {
+    return this.groupAccountObs.asObservable();
+  }
+  get statusSearchGroupAccount$() {
+    return this.searchGroupAccountObs.asObservable();
+  }
+  get statusSearchPayment$() {
+    return this.searchPaymentObs.asObservable();
   }
 
 }

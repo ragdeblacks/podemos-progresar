@@ -59,6 +59,6 @@ export class TransactionService extends ConnectionService {
     return this.post(UrlEnum.group+'/'+idGroup+'/'+UrlEnum.account+'/'+UrlEnum.new,payload);
   }
   setAccountPayment(idAccount: any,payload: any): Observable<any> {
-    return this.post(UrlEnum.account+'/'+idAccount+'/'+UrlEnum.payment+'/'+UrlEnum.new,payload);
+    return this.post(UrlEnum.account+'/'+idAccount+'/'+UrlEnum.payment,payload);
   }
 }
