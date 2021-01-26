@@ -62,17 +62,11 @@ export class PortalComponent implements OnInit {
       case 3:
         if(this.typeCustomer == 'crear'){
           const payload = {
-            id: this.randomId(),
-            nombre: data.name
+            id: '',
+            nombre: data.name,
+            step: data.step
           };
-          this.service.setCustomer(payload).subscribe((res)=>{
-            this.localInfo.nameCustomer = res.nombre;
-            this.localInfo.idCustomer = res.id;
-            localStorage.setItem('idCustomer',res.id);
-            localStorage.setItem('nameCustomer',res.nombre);
-            this.activeUser = true;
-            this.changeStep(data.step);
-          },error => console.log("Error: ", error));
+          this.setCustomer(payload);
         }else{
           this.activeUser = true;
           this.changeStep(data.step);
@@ -98,18 +92,10 @@ export class PortalComponent implements OnInit {
         }else{
           const payload = {
             id: this.randomId(),
-            nombre: data.name
+            nombre: data.name,
+            step: data.step
           };
-          this.service.setGroup(payload).subscribe(res=>{
-            this.localInfo.nameGroup = res.nombre;
-            this.localInfo.idGroup = res.id;
-            localStorage.setItem('idGroup',res.id);
-            localStorage.setItem('nameGroup',res.nombre);
-            this.activeGroup = true;
-            this.changeStep(data.step);
-          },error =>{
-            console.log(error);
-          });
+          this.setGroups(payload);
         }
       break;
       case 5:
@@ -232,7 +218,12 @@ export class PortalComponent implements OnInit {
       data.id = this.randomId();
     }
     this.service.setCustomer(data).subscribe(res=>{
-      this.getCustomer();
+      if(data.step!==''){
+        this.saveCustomer(res,data.step);
+      }else{
+        this.getCustomer();
+      }
+      
     },error=>{
       console.log(error)
     })
@@ -241,8 +232,13 @@ export class PortalComponent implements OnInit {
     if(data.id==''){
       data.id = this.randomId();
     }
-    this.service.setGroup(data).subscribe(res=>{
-      this.getGroups();
+    this.service.setGroup(data).subscribe(res => {
+      if(data.step!==''){
+        this.saveGroup(res,data.step);
+      }else{
+        this.getGroups();
+      }
+      
     },error=>{
       console.log(error)
     })
@@ -259,6 +255,22 @@ export class PortalComponent implements OnInit {
       this.listGroup = res;
     },error=>{});
   }
+  saveCustomer(res: any,step: any){
+      this.localInfo.nameCustomer = res.nombre;
+      this.localInfo.idCustomer = res.id;
+      localStorage.setItem('idCustomer',res.id);
+      localStorage.setItem('nameCustomer',res.nombre);
+      this.activeUser = true;
+      this.changeStep(step);
+  }
+  saveGroup(res: any,step: any){
+    this.localInfo.nameGroup = res.nombre;
+    this.localInfo.idGroup = res.id;
+    localStorage.setItem('idGroup',res.id);
+    localStorage.setItem('nameGroup',res.nombre);
+    this.activeGroup = true;
+    this.changeStep(step);
+}
   get statusSetAccount$() {
     return this.groupAccountObs.asObservable();
   }
