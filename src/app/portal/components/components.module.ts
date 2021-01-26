@@ -6,6 +6,7 @@ import { AccountComponent } from './account/account.component';
 import { MatIconModule } from '@angular/material/icon';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { FormsModule } from '@angular/forms';
+import { ListComponent } from './list/list.component';
 
 
 
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
     UserComponent, 
     GroupComponent, 
     AccountComponent, 
-    WelcomeComponent
+    WelcomeComponent, 
+    ListComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     UserComponent,
     GroupComponent,
     AccountComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ListComponent
   ]
 })
 export class ComponentsModule { }

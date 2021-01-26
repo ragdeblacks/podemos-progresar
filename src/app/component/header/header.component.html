@@ -1,20 +1,22 @@
 <header class="mb-auto " >
-    <div class="row title-podemos"  >
+    <div class="row title-podemos pt-2 pb-2"  >
         <div class="col-2 col-lg-2 col-sm-2 text-left align-items-center">
-            <button class="btn pt-2"> 
+            <button class="btn pt-2" mat-button [matMenuTriggerFor]="menu"> 
                 <mat-icon>sort</mat-icon>
             </button>
+            <!-- #enddocregion mat-menu-trigger-for -->
+            <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changeModule('default')">Principal</button>
+            <button mat-menu-item (click)="changeModule('client')">Clientes</button>
+            <button mat-menu-item (click)="changeModule('group')">Grupos</button>
+            </mat-menu>
         </div>
         <div class="col-sm-8 col-8 col-lg-8 d-flex justify-content-center align-items-center">
             <label class="mb-0 h4">
                 <strong>Yujules Wow!</strong>
             </label>
-            
         </div>
         <div class="col-2 col-lg-2 col-sm-2 text-right align-items-center pr-5">
-            <button class="btn pt-2"> 
-                <mat-icon>search</mat-icon>
-            </button>
         </div>
     </div>
 </header>

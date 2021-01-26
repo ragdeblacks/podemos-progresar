@@ -21,12 +21,88 @@ mat-icon{
     padding-bottom: 30%;
 }
 .grid-user{
-    padding-top: 40%;
+    padding-top: 20%;
     padding-bottom: 40%;
 }
 .grid-group{
     padding-top: 15%;
     padding-bottom: 15%;
+}
+.grid-account{
+    padding-top: 10%;
+    padding-bottom: 40%;
+    .btn-credit{
+        line-height: 1.0;
+        mat-icon{
+            top:6px;
+            font-size: 15px;
+        }
+        span{
+            font-size: 10px;
+        }
+    }
+    .title-account{
+        border-bottom:1px solid rgba(0, 0, 0, 0.125);
+        padding-bottom: 8px; 
+        padding-left: 5px;
+    }
+    .subtitle{
+        border-bottom:1px solid rgba(0, 0, 0, 0.125);
+        label{
+            font-size: 13px;
+        }
+    }
+    .list-item{
+        line-height: 1.0;
+        font-size: 9px;
+        align-self: center;
+        label{
+            width: 65px;
+            border-radius: 8px;
+            padding-top:8px;
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-bottom:8px;
+            color:white;
+            font-weight: bold;
+        }
+    }
+    .card{
+        border-radius: 0px;
+        .card-body{
+            padding-top:5px;
+            padding-left: 10px; 
+            padding-right: 10px;
+            .payment-title{
+                font-weight: bold;
+                font-size: 13px;
+            }
+            .payment-subtitle{
+                
+                font-size: 9px;
+                border-top: 1px solid rgba(0, 0, 0, 0.125);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+            }
+            .payment-list{
+                mat-icon{
+                    top:3px !important;
+                    font-size: 15px;
+                }
+                label{
+                    font-size: 9px;
+                }
+                .pay{
+                    font-size: 10px;
+                    border-radius: 4px;
+                    padding-top: 6px;
+                    padding-left: 6px;
+                    padding-right: 6px;
+                    padding-bottom: 6px;
+                    color: white;
+                }
+            }
+        }
+    }
 }
 .data-user{
     background-color: #5BC776;
@@ -35,4 +111,27 @@ mat-icon{
 .nameCustomer{
     text-transform: capitalize;
 }
-  
+
+.grid-customer-list{
+    .subtitle{
+        border-bottom:1px solid rgba(0, 0, 0, 0.125);
+        label{
+            font-size: 13px;
+        }
+    }
+    .list-grid{
+        label{
+            font-size: 10px;
+        }
+        .btn-action{
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 3px;
+            padding-right: 3px;
+        }
+    }
+    
+    mat-icon{
+        font-size: 15px;
+    }
+}

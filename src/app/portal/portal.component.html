@@ -1,11 +1,11 @@
-<div class="d-flex h-100 mx-auto flex-column bg-light">
-    <app-header></app-header>
+<div class="d-flex h-100 mx-auto flex-column">
+    <app-header (onchangeModule)="changeModule($event)"></app-header>
     <main role="main" class="mh-100 ">
         <div class="container-fluid ">
             <div class="row ">
                 <div class="col-12 col-sm-12 col-lg-12 p-3 ">
                     <div class="card" >
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="viewMenu == 'default'">
                             <div class="row data-user pt-1 pb-1" *ngIf="activeUser">
                                 <div class="col-12 col-sm-12 col-lg-12 text-left">
                                     <h2 class="card-title mb-0" style="line-height: 1.2; color: white;" >Hola <strong class="nameCustomer">{{localInfo.nameCustomer}}</strong></h2>
@@ -20,7 +20,11 @@
                             
                             <app-welcome *ngIf="step === 1" (oncreationProcess)="creationProcess($event)" [step]="step">
                             </app-welcome>
-                            <app-user *ngIf="step === 2" (oncreationProcess)="creationProcess($event)" [step]="step">
+                            <app-user *ngIf="step === 2" 
+                            (oncreationProcess)="creationProcess($event)" 
+                            (onsearchCustomer)="searchCustomer($event)"
+                            [typeCustomer]="typeCustomer"
+                            [step]="step">
                             </app-user>
                             <app-group *ngIf="step === 3" 
                                 [error]="errorGroup"
@@ -65,14 +69,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <app-account *ngIf="activeAccount">
+                            <app-account *ngIf="activeAccount" 
+                            [listCredits]="listCredits" 
+                            (onsearchPaymentList)="searchPaymentList($event)"
+                            (onPayment)="payment($event)" 
+                            (oncreateAccount)="createAccount($event)"
+                            [listPaymentCalendar]="listPaymentCalendar">
                             </app-account>
 
+                        </div>
+                        <div class="card-body" *ngIf="viewMenu == 'client' || viewMenu == 'group'">
+                            <app-list [viewMenu]="viewMenu" 
+                            (onsetCustomer)="setCustomer($event)"
+                            (onsetGroups)="setGroups($event)"
+                            [listCustomers]="listCustomers" 
+                            [listGroup]="listGroup" ></app-list>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </main>
 
