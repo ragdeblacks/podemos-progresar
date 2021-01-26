@@ -54,6 +54,7 @@ export class ListComponent implements OnInit {
     if(this.viewMenu =='group'){
       const data = {
         id: '',
+        step:'',
         nombre: this.createDataElem
       };
       this.onsetGroups.emit(data);
@@ -61,6 +62,7 @@ export class ListComponent implements OnInit {
     }else if(this.viewMenu =='client'){
       const data = {
         id: '',
+        step:'',
         nombre: this.createDataElem
       };
       this.onsetCustomer.emit(data);
