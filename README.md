@@ -44,10 +44,17 @@ Estoy almacenando informacion en localstorage pensando que es un aplicativo que 
 
 ## Detalles o problemas encontrados a lo largo de la prueba
 
-El primer problema encontrado es un problema con las APIS, aunque llevan headers en las peticiones y al ejecutar responde un 200 en la peticion, la respuesta no se puede recuperar, busque soluciones en la web el problema esta relacionado con Access-Control-Allow-Origin, algunas recomendaciones era agregar un header con el access, pero la solucion al problema fue desabilitar la seguridad de el navegador Chrome para poder recuperar la respuesta, para mayor informacion este link fue el necesario para solucionar el problema 
+El primer problema encontrado es un problema con las APIS, aunque llevan headers en las peticiones y al ejecutar responde un 200 en la peticion, la respuesta no se puede recuperar, busque soluciones en la web el problema esta relacionado con Access-Control-Allow-Origin, este es el error,
 
-    - https://alfilatov.com/posts/run-chrome-without-cors/
+    - Access to XMLHttpRequest at 'http://jnovoa.pythonanywhere.com/podemos/clientes/edgar' from origin 'http://localhost:4200' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 
+Algunas recomendaciones era agregar un header con el access, pero la solucion al problema fue desabilitar la seguridad de el navegador Chrome para poder recuperar la respuesta, para mayor informacion este link fue el necesario para solucionar el problema 
+
+    - https://stackoverflow.com/questions/35432749/disable-web-security-in-chrome-48
+
+Para solucionarlo utilice la siguiente linea que me ayudo en mi caso a ejectar chrome deshabilitando el tema de seguridad.
+
+    - google-chrome-stable --disable-web-security --user-data-dir=/home/edgar/Documents
 
 Me encontre con otro problema en el siguiente endpoint tipo post responde con un 200 pero no genera una respuesta cuando se hace la peticion, en mi logica pude recuperar la informacion de otras peticiones y no fue necesario recuperar la respuesta aun queda evidencia del problema
 

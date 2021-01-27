@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
   styleUrls: ['../../portal.component.scss']
 })
-export class GroupComponent implements OnInit {
+export class GroupComponent {
   @Output() oncreationProcess = new EventEmitter<any>();
   @Output() onsearchGroup = new EventEmitter<any>();
   @Input() step: any;
@@ -14,27 +14,27 @@ export class GroupComponent implements OnInit {
   nameGroup = '';
   searchName = '';
   constructor() { }
-
-  ngOnInit(): void {
-  }
+  // tslint:disable-next-line: typedef
   creationProcess(view: number){
     const data = {
       step: view,
       optionGroup: this.typeAffiliate,
-      name: (this.nameGroup === '')? this.error.nombre : this.nameGroup,
+      name: (this.nameGroup === '') ? this.error.nombre : this.nameGroup,
       id: this.searchName
     };
     this.oncreationProcess.emit(data);
   }
+  // tslint:disable-next-line: typedef
   changeOptionGroup(res: any){
     const element = res.srcElement;
     this.typeAffiliate = element.value;
   }
+  // tslint:disable-next-line: typedef
   searchGroup(){
     const data = {
       name: this.searchName
     };
-    const result = this.onsearchGroup.emit(data);
+    this.onsearchGroup.emit(data);
   }
 
 }

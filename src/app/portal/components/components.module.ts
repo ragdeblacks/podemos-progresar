@@ -8,14 +8,12 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { FormsModule } from '@angular/forms';
 import { ListComponent } from './list/list.component';
 
-
-
 @NgModule({
   declarations: [
-    UserComponent, 
-    GroupComponent, 
-    AccountComponent, 
-    WelcomeComponent, 
+    UserComponent,
+    GroupComponent,
+    AccountComponent,
+    WelcomeComponent,
     ListComponent
   ],
   imports: [
@@ -23,7 +21,7 @@ import { ListComponent } from './list/list.component';
     MatIconModule,
     FormsModule
   ],
-  exports:[
+  exports: [
     UserComponent,
     GroupComponent,
     AccountComponent,

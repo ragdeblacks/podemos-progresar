@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
     ComponentsModule,
     FormsModule
   ],
-  providers:[
+  providers: [
     TransactionService
   ]
 })

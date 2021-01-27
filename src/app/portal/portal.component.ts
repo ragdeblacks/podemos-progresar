@@ -23,7 +23,7 @@ export class PortalComponent implements OnInit {
   countCred = 0;
   errorGroup: any = '';
   errorCredit = false;
-  typeCustomer='';
+  typeCustomer = '';
   private groupAccountObs: Subject<any> = new Subject<any>();
   private searchGroupAccountObs: Subject<any> = new Subject<any>();
   private searchPaymentObs: Subject<any> = new Subject<any>();
@@ -31,36 +31,42 @@ export class PortalComponent implements OnInit {
     public service: TransactionService
   ) {   }
 
-  ngOnInit() {
-    if(localStorage.getItem('step')){
+  ngOnInit(): void {
+    if (localStorage.getItem('step')){
       this.step = Number(localStorage.getItem('step'));
     }
-    if(localStorage.getItem('idCustomer')){
+    if (localStorage.getItem('idCustomer')){
+      // tslint:disable-next-line: no-non-null-assertion
       this.localInfo.nameCustomer = localStorage.getItem('nameCustomer')!;
+      // tslint:disable-next-line: no-non-null-assertion
       this.localInfo.idCustomer = localStorage.getItem('idCustomer')!;
       this.activeUser = true;
-      //
     }
-    if(localStorage.getItem('idGroup')){
+    if (localStorage.getItem('idGroup')){
+      // tslint:disable-next-line: no-non-null-assertion
       this.localInfo.idGroup = localStorage.getItem('idGroup')!;
+      // tslint:disable-next-line: no-non-null-assertion
       this.localInfo.nameGroup = localStorage.getItem('nameGroup')!;
+      // tslint:disable-next-line: no-non-null-assertion
       this.typeAffiliate = localStorage.getItem('typeAffiliate')!;
+      // tslint:disable-next-line: no-non-null-assertion
       this.countCred = Number(localStorage.getItem('countCred')!);
     }
-    if(localStorage.getItem('listCredits')){
+    if (localStorage.getItem('listCredits')){
       this.step = 0;
       this.activeAccount = true;
       this.getGroupAccount();
     }
 
   }
+  // tslint:disable-next-line: typedef
   creationProcess(data: any){
-    switch(data.step){
+    switch (data.step){
       case 2:
         this.changeStep(data.step);
-      break;
+        break;
       case 3:
-        if(this.typeCustomer == 'crear'){
+        if (this.typeCustomer === 'crear'){
           const payload = {
             id: '',
             nombre: data.name,
@@ -71,22 +77,23 @@ export class PortalComponent implements OnInit {
           this.activeUser = true;
           this.changeStep(data.step);
         }
-      break;
+        break;
       case 4:
         this.typeAffiliate = data.optionGroup;
-        localStorage.setItem('typeAffiliate',data.optionGroup);
-        if(this.typeAffiliate == '1'){
+        localStorage.setItem('typeAffiliate', data.optionGroup);
+        if (this.typeAffiliate === '1'){
           const payload = [{
             id: this.localInfo.idCustomer
           }];
-          this.service.setGroupMember(data.id,payload).subscribe(res=>{
+          // tslint:disable-next-line: deprecation
+          this.service.setGroupMember(data.id, payload).subscribe(res => {
               this.localInfo.nameGroup = data.name;
               this.localInfo.idGroup = data.id;
-              localStorage.setItem('idGroup',data.id);
-              localStorage.setItem('nameGroup',data.name);
+              localStorage.setItem('idGroup', data.id);
+              localStorage.setItem('nameGroup', data.name);
               this.activeGroup = true;
               this.changeStep(data.step);
-          },error =>{
+          }, error => {
             console.log(error);
           });
         }else{
@@ -97,10 +104,10 @@ export class PortalComponent implements OnInit {
           };
           this.setGroups(payload);
         }
-      break;
+        break;
       case 5:
-        if(this.typeAffiliate == '2'){
-          if(this.amount===0){
+        if (this.typeAffiliate === '2'){
+          if (this.amount === 0){
             this.errorCredit = true;
           }else{
             this.errorCredit = false;
@@ -108,175 +115,202 @@ export class PortalComponent implements OnInit {
           }
         }
         this.searchGroupAccount();
-        this.statusSearchGroupAccount$.subscribe(res =>{
-          localStorage.setItem('listCredits',JSON.stringify(res));
+        // tslint:disable-next-line: deprecation
+        this.statusSearchGroupAccount$.subscribe(res  => {
+          localStorage.setItem('listCredits', JSON.stringify(res));
           this.listCredits = res;
           this.changeStep(0);
           this.activeAccount = true;
-        },error=>{
+        }, error => {
           console.log(error);
         });
-        
-      break;
+        break;
     }
   }
+  // tslint:disable-next-line: typedef
   changeStep(view: number){
     this.step = view;
-    localStorage.setItem('step',this.step.toString());
+    localStorage.setItem('step', this.step.toString());
   }
+  // tslint:disable-next-line: typedef
   randomId(){
     return Math.random().toString(36).substr(2, 9).toUpperCase();
-  };
-
+  }
+  // tslint:disable-next-line: typedef
   searchGroup(data: any){
-    return this.service.getGroupbyId(data.name).subscribe(res=>{
+    // tslint:disable-next-line: deprecation
+    return this.service.getGroupbyId(data.name).subscribe(res => {
       this.errorGroup = res;
       return res;
-    },error =>{
+    }, error => {
       this.errorGroup = 'error';
-        return error;
+      return error;
     } );
   }
-
+  // tslint:disable-next-line: typedef
   searchGroupAccount(){
-    this.service.getGroupAccounts(this.localInfo.idGroup).subscribe(res=>{
+     // tslint:disable-next-line: deprecation
+    this.service.getGroupAccounts(this.localInfo.idGroup).subscribe(res => {
       this.searchGroupAccountObs.next(res);
-    },error =>{
+    }, error => {
       this.searchGroupAccountObs.error(error);
     });
   }
+  // tslint:disable-next-line: typedef
   getGroupAccount(){
     this.searchGroupAccount();
-    this.statusSearchGroupAccount$.subscribe(res =>{
-      localStorage.setItem('listCredits',JSON.stringify(res));
+    // tslint:disable-next-line: deprecation
+    this.statusSearchGroupAccount$.subscribe(res  => {
+      localStorage.setItem('listCredits', JSON.stringify(res));
       this.listCredits = res;
-    },error=>{
+    }, error => {
       console.log(error);
     });
   }
-
+  // tslint:disable-next-line: typedef
   setGroupAccount(payload: any ){
-    this.service.setGroupAccount(this.localInfo.idGroup,payload).subscribe(res=>{
+    // tslint:disable-next-line: deprecation
+    this.service.setGroupAccount(this.localInfo.idGroup, payload).subscribe(res => {
       this.groupAccountObs.next(res);
-    },error =>{
+    }, error  => {
       this.groupAccountObs.error(error);
     });
   }
+  // tslint:disable-next-line: typedef
   searchPaymentList(data: any){
     this.listPaymentCalendar = [];
-    this.service.getAccountPaymentCalendar(data.id).subscribe(res=>{
+    // tslint:disable-next-line: deprecation
+    this.service.getAccountPaymentCalendar(data.id).subscribe(res => {
       this.listPaymentCalendar = res;
       this.searchPaymentObs.next('success');
-    },error=>{
+    }, error => {
       this.searchPaymentObs.error('error');
       console.log(error);
     });
   }
+  // tslint:disable-next-line: typedef
   payment(data: any){
-    this.service.setAccountPayment(data.cuenta,{monto:data.monto}).subscribe(res=>{
-      this.searchPaymentList({id:res.cuenta});
+    // tslint:disable-next-line: deprecation
+    this.service.setAccountPayment(data.cuenta, {monto: data.monto}).subscribe(res => {
+      this.searchPaymentList({id: res.cuenta});
       this.getGroupAccount();
-    },error=>{
+    }, error => {
       console.log(error);
     });
   }
+  // tslint:disable-next-line: typedef
   createAccount(data: any){
     this.countCred++;
     const payload = {
-      id: 'CRED-'+this.localInfo.nameGroup+'-'+this.countCred,
+      id: 'CRED-' + this.localInfo.nameGroup + '-' + this.countCred,
       monto: data.monto
     };
     this.setGroupAccount(payload);
-    this.statusSetAccount$.subscribe(res=>{
-      localStorage.setItem('countCred',this.countCred.toString());
+    // tslint:disable-next-line: deprecation
+    this.statusSetAccount$.subscribe(res => {
+      localStorage.setItem('countCred', this.countCred.toString());
       this.getGroupAccount();
-    },error=>{
+    }, error => {
       console.log(error);
     });
   }
+  // tslint:disable-next-line: typedef
   searchCustomer(data: any){
-    this.service.getCustomerbyId(data.id).subscribe(res=>{
+    // tslint:disable-next-line: deprecation
+    this.service.getCustomerbyId(data.id).subscribe(res => {
       this.localInfo.nameCustomer = res.nombre;
       this.localInfo.idCustomer = res.id;
-      localStorage.setItem('idCustomer',res.id);
-      localStorage.setItem('nameCustomer',res.nombre);
+      localStorage.setItem('idCustomer', res.id);
+      localStorage.setItem('nameCustomer', res.nombre);
       this.typeCustomer = 'vincular';
-    },error=>{
+    }, error => {
       this.typeCustomer = 'crear';
     });
   }
+  // tslint:disable-next-line: typedef
   changeModule(data: any){
     this.viewMenu = data.view;
-    if(this.viewMenu == 'group'){
+    if (this.viewMenu === 'group'){
       this.getGroups();
-    }else if(this.viewMenu == 'client'){
+    }else if (this.viewMenu === 'client'){
       this.getCustomer();
     }
   }
+  // tslint:disable-next-line: typedef
   setCustomer(data: any ){
-    if(data.id==''){
+    if (data.id === ''){
       data.id = this.randomId();
     }
-    this.service.setCustomer(data).subscribe(res=>{
-      if(data.step!==''){
-        this.saveCustomer(res,data.step);
+    // tslint:disable-next-line: deprecation
+    this.service.setCustomer(data).subscribe(res => {
+      if (data.step !== ''){
+        this.saveCustomer(res, data.step);
       }else{
         this.getCustomer();
       }
-      
-    },error=>{
-      console.log(error)
-    })
+    }, error => {
+      console.log(error);
+    });
   }
+  // tslint:disable-next-line: typedef
   setGroups(data: any){
-    if(data.id==''){
+    if (data.id === ''){
       data.id = this.randomId();
     }
+    // tslint:disable-next-line: deprecation
     this.service.setGroup(data).subscribe(res => {
-      if(data.step!==''){
-        this.saveGroup(res,data.step);
+      if (data.step !== ''){
+        this.saveGroup(res, data.step);
       }else{
         this.getGroups();
       }
-      
-    },error=>{
-      console.log(error)
-    })
+    }, error => {
+      console.log(error);
+    });
   }
+  // tslint:disable-next-line: typedef
   getCustomer(){
     this.listCustomers = [];
-    this.service.getCustomers().subscribe(res=>{
+    // tslint:disable-next-line: deprecation
+    this.service.getCustomers().subscribe(res => {
       this.listCustomers = res;
-    },error=>{});
+    }, error => {});
   }
+  // tslint:disable-next-line: typedef
   getGroups(){
     this.listGroup = [];
-    this.service.getGroups().subscribe(res=>{
+    // tslint:disable-next-line: deprecation
+    this.service.getGroups().subscribe(res => {
       this.listGroup = res;
-    },error=>{});
+    }, error => {});
   }
-  saveCustomer(res: any,step: any){
+  // tslint:disable-next-line: typedef
+  saveCustomer(res: any, step: any){
       this.localInfo.nameCustomer = res.nombre;
       this.localInfo.idCustomer = res.id;
-      localStorage.setItem('idCustomer',res.id);
-      localStorage.setItem('nameCustomer',res.nombre);
+      localStorage.setItem('idCustomer', res.id);
+      localStorage.setItem('nameCustomer', res.nombre);
       this.activeUser = true;
       this.changeStep(step);
   }
-  saveGroup(res: any,step: any){
+  // tslint:disable-next-line: typedef
+  saveGroup(res: any, step: any){
     this.localInfo.nameGroup = res.nombre;
     this.localInfo.idGroup = res.id;
-    localStorage.setItem('idGroup',res.id);
-    localStorage.setItem('nameGroup',res.nombre);
+    localStorage.setItem('idGroup', res.id);
+    localStorage.setItem('nameGroup', res.nombre);
     this.activeGroup = true;
     this.changeStep(step);
-}
+  }
+  // tslint:disable-next-line: typedef
   get statusSetAccount$() {
     return this.groupAccountObs.asObservable();
   }
+  // tslint:disable-next-line: typedef
   get statusSearchGroupAccount$() {
     return this.searchGroupAccountObs.asObservable();
   }
+  // tslint:disable-next-line: typedef
   get statusSearchPayment$() {
     return this.searchPaymentObs.asObservable();
   }
