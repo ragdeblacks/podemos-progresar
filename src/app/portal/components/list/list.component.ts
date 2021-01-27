@@ -38,6 +38,7 @@ export class ListComponent {
   saveGroup(id: any){
     const data = {
       id,
+      step: '',
       nombre: this.nameEditGroup
     };
     this.onsetGroups.emit(data);
@@ -47,6 +48,7 @@ export class ListComponent {
   saveCustomer(id: any){
     const data = {
       id,
+      step: '',
       nombre: this.nameEditCustomer
     };
     this.onsetCustomer.emit(data);

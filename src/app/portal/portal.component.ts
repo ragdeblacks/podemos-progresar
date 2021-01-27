@@ -130,7 +130,7 @@ export class PortalComponent implements OnInit {
   // tslint:disable-next-line: typedef
   changeStep(view: number){
     this.step = view;
-    localStorage.setItem('step', this.step.toString());
+    localStorage.setItem('step', view.toString());
   }
   // tslint:disable-next-line: typedef
   randomId(){
