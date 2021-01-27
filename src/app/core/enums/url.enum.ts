@@ -5,7 +5,7 @@ export enum UrlEnum {
     account = 'cuentas',
     paymentCalendar = 'calendariopagos',
     transaction = 'transacciones',
-    new = 'new', 
+    new = 'new',
     payment = 'payment'
 
 }

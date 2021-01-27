@@ -1,27 +1,25 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['../../portal.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
   @Output() oncreationProcess = new EventEmitter<any>();
   @Output() onsearchCustomer = new EventEmitter<any>();
   @Input() step: any;
   @Input() typeCustomer: any;
   nameCustomer = '';
   error = false;
-  
   constructor() { }
-
-  ngOnInit(): void {
-  }
+  // tslint:disable-next-line: typedef
   clear(){
     this.error = false;
   }
+  // tslint:disable-next-line: typedef
   searchCustomer(){
-    if(this.nameCustomer!==''){
+    if (this.nameCustomer !== ''){
       const data = {
         id: this.nameCustomer
       };
@@ -30,6 +28,7 @@ export class UserComponent implements OnInit {
       this.error = true;
     }
   }
+  // tslint:disable-next-line: typedef
   creationProcess(view: number){
     const data = {
       step: view,

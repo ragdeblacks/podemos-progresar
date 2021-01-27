@@ -13,7 +13,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatIconModule,
     MatMenuModule
   ],
-  exports:[
+  exports: [
     HeaderComponent
   ]
 })

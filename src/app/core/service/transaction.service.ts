@@ -19,46 +19,46 @@ export class TransactionService extends ConnectionService {
     return this.get(UrlEnum.customer);
   }
   getCustomerbyId(id: any): Observable<any> {
-    return this.get(UrlEnum.customer+'/'+id);
+    return this.get(UrlEnum.customer + '/' + id);
   }
   getGroups(): Observable<any> {
     return this.get(UrlEnum.group);
   }
   getGroupbyId(id: any): Observable<any> {
-    return this.get(UrlEnum.group+'/'+id);
+    return this.get(UrlEnum.group + '/' + id);
   }
   getGroupMembers(idGroup: any): Observable<any> {
-    return this.get(UrlEnum.group+'/'+idGroup+'/'+UrlEnum.member);
+    return this.get(UrlEnum.group + '/' + idGroup + '/' + UrlEnum.member);
   }
   getGroupAccounts(idGroup: any): Observable<any> {
-    return this.get(UrlEnum.group+'/'+idGroup+'/'+UrlEnum.account);
+    return this.get(UrlEnum.group + '/' + idGroup + '/' + UrlEnum.account);
   }
   getAccounts(): Observable<any> {
     return this.get(UrlEnum.account);
   }
   getAccountbyId(id: any): Observable<any> {
-    return this.get(UrlEnum.account+'/'+id);
+    return this.get(UrlEnum.account + '/' + id);
   }
   getAccountPaymentCalendar(id: any): Observable<any> {
-    return this.get(UrlEnum.account+'/'+id+'/'+UrlEnum.paymentCalendar);
+    return this.get(UrlEnum.account + '/' + id + '/' + UrlEnum.paymentCalendar);
   }
   getAccountTransaction(id: any): Observable<any> {
-    return this.get(UrlEnum.account+'/'+id+'/'+UrlEnum.transaction);
+    return this.get(UrlEnum.account + '/' + id + '/' + UrlEnum.transaction);
   }
 
   setCustomer(payload: any): Observable<any> {
-    return this.post(UrlEnum.customer+'/'+UrlEnum.new,payload);
+    return this.post(UrlEnum.customer + '/' + UrlEnum.new, payload);
   }
   setGroup(payload: any): Observable<any> {
-    return this.post(UrlEnum.group+'/'+UrlEnum.new,payload);
+    return this.post(UrlEnum.group + '/' + UrlEnum.new, payload);
   }
-  setGroupMember(idGroup: any,payload: any): Observable<any> {
-    return this.post(UrlEnum.group+'/'+idGroup+'/'+UrlEnum.member+'/'+UrlEnum.new,payload);
+  setGroupMember(idGroup: any, payload: any): Observable<any> {
+    return this.post(UrlEnum.group + '/' + idGroup + '/' + UrlEnum.member + '/' + UrlEnum.new, payload);
   }
-  setGroupAccount(idGroup: any,payload: any): Observable<any> {
-    return this.post(UrlEnum.group+'/'+idGroup+'/'+UrlEnum.account+'/'+UrlEnum.new,payload);
+  setGroupAccount(idGroup: any, payload: any): Observable<any> {
+    return this.post(UrlEnum.group + '/' + idGroup + '/' + UrlEnum.account + '/' + UrlEnum.new, payload);
   }
-  setAccountPayment(idAccount: any,payload: any): Observable<any> {
-    return this.post(UrlEnum.account+'/'+idAccount+'/'+UrlEnum.payment,payload);
+  setAccountPayment(idAccount: any, payload: any): Observable<any> {
+    return this.post(UrlEnum.account + '/' + idAccount + '/' + UrlEnum.payment, payload);
   }
 }

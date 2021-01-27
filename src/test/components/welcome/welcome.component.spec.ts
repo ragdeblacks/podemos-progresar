@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { WelcomeComponent } from './welcome.component';
+import { WelcomeComponent } from 'src/app/portal/components/welcome/welcome.component';
 
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
@@ -21,5 +20,12 @@ describe('WelcomeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should run creationProcess() ', () => {
+    const view = 1;
+    component.oncreationProcess = component.oncreationProcess || {};
+    spyOn(component.oncreationProcess, 'emit');
+    component.creationProcess(view);
+    expect(component.oncreationProcess.emit).toHaveBeenCalled();
   });
 });

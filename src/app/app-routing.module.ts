@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PortalComponent } from './portal/portal.component';
 
 const routes: Routes = [
   {
@@ -10,8 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'portal',
-    loadChildren:() => import( './portal/portal.module' ).then( m => m.PortalModule )
-    
+    loadChildren: () => import( './portal/portal.module' ).then( m => m.PortalModule )
   }
 ];
 
