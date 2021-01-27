@@ -73,6 +73,8 @@ El comando que uso para correr pruebas es el siguiente
 
     - ng test --no-watch --code-coverage
 
+## Nota, es posible que al correr en ciertos momentos dentro de la ejecucion marque un error con un metodo toString, es un error comun de Jasmine y la memoria que consume del local, en realidad no hay un error como tal, solo es que jasmine no compila correctamente, basta con volver a ejecutar el comando para que corran las pruebas de manera adecuada 
+
 A la par se generara un reporte de code coverage que se genera a partir de este comando en la carpeta /coverage y puede visualizarse el reporte completo de cobertura de codigo
 
 Uso TSLint para mantener buenas practicas en codigo el comando para validar detalles en el proyecto a corregir es el siguiente 
