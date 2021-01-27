@@ -32,7 +32,10 @@ Una vez que se cuente con el proyecto en local, solo se necesita ejecutar
 
 Ya descargadas las dependencias inicializar con 
 
-    -ng serve
+    - ng serve
+
+Tambien se puede generar el build del proyecto con el siguiente comando 
+    - ng build --prod
 ## Contenido del proyecto
 
 La base se encuentra en el menu superior izquierdo, tiene tres opciones, Principal, Clientes, Grupos... 
@@ -61,6 +64,21 @@ Me encontre con otro problema en el siguiente endpoint tipo post responde con un
     - POST /grupos/g_id/miembros/new  
 
 Se usa para relacionar miembros a un grupo.
+
+## Pruebas unitarias en el proyecto
+
+Se incluyeron pruebas unitarias a nivel de componentes, me quede sin tiempo para la parte de servicios ademas de revisar algunos branches que faltan de code coverage en los archivos de componentes, realice algunos ajustes en la configuracion de angular.json para excluir enviroments de las pruebas
+
+El comando que uso para correr pruebas es el siguiente 
+
+    - ng test --no-watch --code-coverage
+
+A la par se generara un reporte de code coverage que se genera a partir de este comando en la carpeta /coverage y puede visualizarse el reporte completo de cobertura de codigo
+
+Uso TSLint para mantener buenas practicas en codigo el comando para validar detalles en el proyecto a corregir es el siguiente 
+
+    - ng lint
+
 
 
 
